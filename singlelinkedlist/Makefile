@@ -1,2 +1,2 @@
 singlelinkedlist: singlelinkedlist.cpp
-  g++ -o hello hello.cpp
+  g++ -o singlelinkedlist singlelinkedlist.cpp
