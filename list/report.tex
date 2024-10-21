@@ -1,143 +1,48 @@
-\documentclass[UTF8]{ctexart}
-\usepackage{geometry}
-\geometry{a4paper,scale=0.8}
+\documentclass{article}
 \usepackage{amsmath}
 \usepackage{listings}
 \usepackage{graphicx}
 
-% Define code style
-\lstset{
-    basicstyle=\ttfamily,
-    numbers=left,
-    numberstyle=\tiny,
-    stepnumber=1,
-    numbersep=5pt,
-    showspaces=false,
-    showstringspaces=false,
-    showtabs=false,
-    tabsize=2,
-    breaklines=true,
-    breakatwhitespace=false,
-    escapeinside={\%*}{*)}
-}
-
-\title{链表类测试报告}
+\title{双向链表类 List 测试报告}
 \author{wy}
-\date{\today}
+\date{2024年10月21日}
 
 \begin{document}
+
 \maketitle
 
-\section{测试设计}
-为了确保链表类（`List` 类）功能的正确性，我设计了如下的测试用例，覆盖了链表的核心功能，包括：
+\section{测试方面}
 \begin{itemize}
-    \item 默认构造函数与链表初始化后的空状态验证。
-    \item 初始化列表构造函数，验证链表能否通过初始化列表进行正确构造。
-    \item 元素插入操作，验证 \texttt{push\_front} 和 \texttt{push\_back} 操作是否按预期工作。
-    \item 元素删除操作，测试 \texttt{pop\_front} 和 \texttt{pop\_back}。
-    \item 随机位置的插入与删除操作，通过 \texttt{insert} 和 \texttt{erase} 测试链表节点的管理。
-    \item 深拷贝测试，验证拷贝构造函数。
-    \item 移动构造函数测试，确保资源的移动和转移操作正确无误。
-    \item 赋值运算符测试，确保赋值操作的正确性。
-    \item 清空链表的操作，使用 \texttt{clear} 函数。
+    \item \textbf{测试 1}: 测试默认构造函数，检查链表是否为空。
+    \item \textbf{测试 2}: 测试初始化列表构造函数，验证链表能否使用初始值列表正确初始化。
+    \item \textbf{测试 3}: 测试 \texttt{push\_back} 和 \texttt{push\_front} 操作，验证链表尾部和头部的插入是否正确，并检查链表的大小是否正确更新。
+    \item \textbf{测试 4}: 测试 \texttt{pop\_front} 和 \texttt{pop\_back} 操作，验证从链表头部和尾部移除元素是否工作正常。
+    \item \textbf{测试 5}: 测试 \texttt{insert} 操作，验证在链表中间插入元素的功能。
+    \item \textbf{测试 6}: 测试 \texttt{erase} 操作，验证从链表中删除指定元素的功能。
+    \item \textbf{测试 7}: 测试拷贝构造函数，验证链表的深拷贝是否正确。
+    \item \textbf{测试 8}: 测试链表的 \texttt{front} 和 \texttt{back} 函数，确保返回链表的第一个和最后一个元素是正确的。
+    \item \textbf{测试 9}: 测试移动构造函数，验证链表的移动操作是否能够成功，并检查源链表是否被清空。
+    \item \textbf{测试 10}: 测试赋值运算符，验证链表赋值是否能够正确地复制所有节点。
+    \item \textbf{测试 11}: 测试 \texttt{clear} 函数，验证清空链表后，链表是否为空并且大小为零。
 \end{itemize}
 
-\section{测试代码}
-测试代码如下所示：
-\begin{lstlisting}[language=C++]
-// 打印List中所有元素的辅助函数
-void printList(const List<int>& lst) {
-    for (auto it = lst.begin(); it != lst.end(); ++it) {
-        std::cout << *it << " ";
-    }
-    std::cout << std::endl;
-}
-
-int main() {
-    // 1. 测试默认构造函数与empty
-    List<int> lst1;
-    std::cout << "Test 1: 默认构造函数, list should be empty" << std::endl;
-    std::cout << "Is empty: " << lst1.empty() << std::endl;
-
-    // 2. 测试初始化列表构造函数
-    List<int> lst2 = {1, 2, 3, 4};
-    std::cout << "Test 2: 初始化列表构造函数" << std::endl;
-    printList(lst2);
-
-    // 3. 测试push_back, push_front 和 size
-    lst2.push_back(10);
-    lst2.push_back(20);
-    lst2.push_front(5);
-    std::cout << "Test 3: push_back(10, 20) and push_front(5) :" << std::endl;
-    printList(lst2);
-    std::cout << "Size: " << lst2.size() << std::endl;
-
-    // 4. 测试pop_front, pop_back
-    lst2.pop_front();
-    lst2.pop_back();
-    std::cout << "Test 4: pop_front and pop_back :" << std::endl;
-    printList(lst2);
-
-    // 5. 测试insert
-    auto it = lst2.begin();
-    lst2.insert(it, 15);
-    std::cout << "Test 5: insert 15 at the front:" << std::endl;
-    printList(lst2);
-
-    // 6. 测试erase
-    it = lst2.begin();
-    lst2.erase(it);
-    std::cout << "Test 6: erase (remove 15):" << std::endl;
-    printList(lst2);
-
-    // 7. 测试拷贝构造函数
-    List<int> lst3 = lst2;
-    std::cout << "Test 7: 拷贝构造函数:" << std::endl;
-    printList(lst3);
-
-    // 8. 测试 front 和 back
-    std::cout << "Test 8: Front and Back:" << std::endl;
-    std::cout << "front of lst3 : " << lst3.front() << std::endl;
-    std::cout << "back of lst3: " << lst3.back() << std::endl;
-
-    // 9. 测试移动构造函数
-    List<int> lst4 = std::move(lst3);
-    std::cout << "Test 9: 移动构造函数 (move from list 3):" << std::endl;
-    printList(lst4);
-    std::cout << "size of List 3 after move (should be empty): " << lst3.size() << std::endl;
-
-    // 10. 测试赋值运算符
-    List<int> lst5 = lst4;
-    std::cout << "Test 10: 赋值运算符 :" << std::endl;
-    printList(lst5);
-
-    // 11. 测试clear
-    lst5.clear();
-    std::cout << "Test 11: After clear (list 5 should be empty):" << std::endl;
-    std::cout << "Is empty: " << lst5.empty() << std::endl;
-    std::cout << "Size: " << lst5.size() << std::endl;
-
-    return 0;
-}
-\end{lstlisting}
-
 \section{测试结果}
-测试结果均符合预期，证明链表类的各项功能正常。
-
-\begin{enumerate}
-    \item **默认构造函数测试：** 链表初始化为空，\texttt{empty()} 返回 \texttt{true}。
-    \item **初始化列表构造函数测试：** 链表正确存储了 \texttt{1 2 3 4}。
-    \item **元素插入测试：** \texttt{push\_back} 和 \texttt{push\_front} 功能正常，链表变为 \texttt{5 1 2 3 4 10 20}，链表大小正确。
-    \item **元素删除测试：** \texttt{pop\_front} 和 \texttt{pop\_back} 功能正常，链表变为 \texttt{1 2 3 4 10}。
-    \item **插入测试：** \texttt{insert} 功能正常，在链表前插入 \texttt{15}，结果为 \texttt{15 1 2 3 4 10}。
-    \item **删除测试：** \texttt{erase} 正确删除了链表第一个元素 \texttt{15}。
-    \item **拷贝构造函数测试：** 深拷贝功能正常，链表 \texttt{lst3} 与 \texttt{lst2} 内容相同。
-    \item **移动构造函数测试：** 资源正确转移，移动后链表 \texttt{lst3} 为空。
-    \item **赋值运算符测试：** 链表 \texttt{lst5} 正确复制了 \texttt{lst4} 的内容。
-    \item **清空测试：** 链表 \texttt{lst5} 被正确清空，大小为 \texttt{0}，\texttt{empty()} 返回 \texttt{true}。
-\end{enumerate}
+通过以上测试，我们得到了以下结果：
+\begin{itemize}
+    \item \textbf{测试 1}: 链表成功初始化为空，\texttt{empty()} 返回 \texttt{true}，符合预期。
+    \item \textbf{测试 2}: 初始化列表构造函数正确工作，链表内容为初始化列表中的元素，顺序正确。
+    \item \textbf{测试 3}: \texttt{push\_back} 和 \texttt{push\_front} 操作均能正确插入元素，链表大小正确更新。
+    \item \textbf{测试 4}: \texttt{pop\_front} 和 \texttt{pop\_back} 操作成功，链表正确移除头部和尾部元素，链表大小正确更新。
+    \item \textbf{测试 5}: 插入操作能够正确在链表中插入新元素，插入位置及顺序符合预期。
+    \item \textbf{测试 6}: 删除操作成功，链表能够正确删除指定位置的元素，链表的大小和内容正确更新。
+    \item \textbf{测试 7}: 拷贝构造函数能够正确复制链表，验证拷贝后新链表与原链表内容一致且相互独立。
+    \item \textbf{测试 8}: \texttt{front} 和 \texttt{back} 函数成功返回链表的第一个和最后一个元素，结果正确。
+    \item \textbf{测试 9}: 移动构造函数能够成功移动链表，目标链表内容正确，源链表在移动后为空。
+    \item \textbf{测试 10}: 赋值运算符能够正确复制链表的内容，验证赋值后两个链表相互独立。
+    \item \textbf{测试 11}: 清空操作成功，链表在调用 \texttt{clear()} 后为空且大小为零。
+\end{itemize}
 
 \section{总结}
-通过上述测试，可以确认 `List` 类的功能实现是正确的，支持标准链表的各类操作，拷贝与移动语义也正常工作。测试结果符合预期，未发现任何错误。
-\end{document}
+本次测试验证了双向链表类 \texttt{List} 的各项基本功能均能够正常工作。所有测试均通过，链表类实现正确处理了插入、删除、遍历、拷贝和移动等操作，表现符合预期。
 
+\end{document}
