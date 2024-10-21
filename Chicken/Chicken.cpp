@@ -18,7 +18,11 @@ class Chicken
         };
         Chicken(const Chicken &_chicken)
         {
-            *this = _chicken; 
+            int len = strlen(_chicken.name) + 1;
+            name = new char[len];
+            age = _chicken.age;
+            for (int i = 0; i < len; i++)
+                name [i] = _chicken.name [i]; 
         }
         Chicken& operator= (const Chicken& other){
             setAge(other.age);
