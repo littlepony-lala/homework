@@ -37,7 +37,7 @@ int main()
     
     // 5.测试insert
     auto it = lst2.begin();
-    lst1.insert(it, 15);
+    lst2.insert(it, 15);
     std::cout << "Test 5: insert 15 at the front:" << std::endl;
     printList(lst2);
 
