@@ -1,6 +1,8 @@
+
 all: run
 
 run: $(TARGET)
+	@chmod +x $(TARGET) 
 	./$(TARGET)
 
 $(TARGET): $(SOURCE)
@@ -8,7 +10,7 @@ $(TARGET): $(SOURCE)
 
 report: $(REPORT_SRC)
 	pdflatex $(REPORT_SRC)
-	pdflatex $(REPORT_SRC)
+	pdflatex $(REPORT_SRC) 
 
 clean:
 	rm -f $(TARGET) *.o *.log *.aux *.pdf
