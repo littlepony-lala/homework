@@ -1,3 +1,8 @@
+CXX = g++
+CXXFLAGS = -Wall -Wextra -std=c++11
+TARGET = main
+SOURCE = main.cpp BinarySearchTree.h
+REPORT_SRC = report.tex
 
 all: run
 
