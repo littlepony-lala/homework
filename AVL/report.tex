@@ -1,11 +1,23 @@
-%导言区
-\documentclass[12pt,a4paper]{Article}% 文档格式
-\usepackage{ctex,hyperref}% 输出汉字
-\usepackage{amsmath, amsthm, amssymb, graphicx}%导入数学公式、图片等包
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{ctex,hyperref}
+
+
+
 \title{AVL remove函数报告}
 \author{}
-%正文区
-\begin{document}%开始文档
+\date{}
+
+\begin{document}
+
 \maketitle
-类同课本把不平衡情况分成四种：1.左儿子的左子树高度偏高；2.右儿子的右子树高度偏高；3.右儿子的左子树偏高；4左儿子的右子树偏高。构建左旋右旋函数，对四种情况分别单旋转和双旋转，来平衡avl树。
-\end{document}%结束文档
+类同课本把不平衡情况分成四种：1.左儿子的左子树高度偏高；2.右儿子的右子树高度偏高；3.右儿子的左子树偏高；4左儿子的右子树偏高。构建左旋右旋辅助函数来构建balance函数用于把节点平衡。在remove中完成remove操作后，自下而上遍历可能不平衡的节点并且将它们全部用balance平衡以保证avl树的平衡。
+
+
+\end{document}
+
+
+
+
