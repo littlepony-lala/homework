@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <stack>
 
 /// 临时性的异常类，用于表示树为空的异常
 class UnderflowException { };
@@ -211,19 +212,27 @@ protected:
         BinaryNode(Comparable &&theElement, BinaryNode *lt, BinaryNode *rt, int h = 0 )
             : element{ std::move(theElement) }, left{ lt }, right{ rt }, height{ h } {}
     };
-    
-    void updateHeight(BinaryNode * &t) {
-        int leftHeight = (t->left == nullptr) ? 0 : t->left->height;
-        int rightHeight = (t->right == nullptr) ? 0 : t->right->height;
-        t->height = std::max(leftHeight, rightHeight) + 1;
-    }
+    int getHeight(BinaryNode *p) const{
+        int l = (p->left) ? (p->left->height) : 0;
+        int r = (p->right) ? (p->right->height) : 0;
+        return std::max(l,r) + 1;
 
+
+    }
+    int getBalanceFactor(BinaryNode *p) const{
+        int l = (p->left) ? (p->left->height) : 0;
+        int r = (p->right) ? (p->right->height) : 0;
+        return l - r;
+    }
+    
     void balance(BinaryNode * &t) {
         int balanceFactor = getBalanceFactor(t);
     // 左子树较高
         if (balanceFactor > 1) {
         if (getBalanceFactor(t->left) < 0) {  // 左右不平衡，左旋再右旋
             rotateLeft(t->left);
+            rotateRight(t);
+        }else{
             rotateRight(t);
         }
         }
@@ -232,34 +241,31 @@ protected:
         if (getBalanceFactor(t->right) > 0) {  // 右左不平衡，右旋再左旋
             rotateRight(t->right);
             rotateLeft(t);
+        }else{
+            rotateLeft(t);
         }
         }
         }
 
-    int getBalanceFactor(BinaryNode *t) {
-        int leftHeight = (t->left == nullptr) ? 0 : t->left->height;
-        int rightHeight = (t->right == nullptr) ? 0 : t->right->height;
-        return leftHeight - rightHeight;
+
+// 右旋
+    void rotateRight(BinaryNode * &p) {
+        auto temp = p->left;
+        p->left = temp->right;
+        p->height = getHeight(p);
+        temp->right = p;
+        temp->height = getHeight(temp);
+        p = temp;
     }
 
-// 右旋操作
-    void rotateRight(BinaryNode * &t) {
-        BinaryNode *newRoot = t->left;
-        t->left = newRoot->right;
-        newRoot->right = t;
-        updateHeight(t);
-        updateHeight(newRoot);
-        t = newRoot;
-    }
-
-// 左旋操作
-    void rotateLeft(BinaryNode * &t) {
-        BinaryNode *newRoot = t->right;
-        t->right = newRoot->left;
-        newRoot->left = t;
-        updateHeight(t);
-        updateHeight(newRoot);
-        t = newRoot;
+// 左旋
+    void rotateLeft(BinaryNode * &p) {
+        auto temp = p->right;
+        p->left = temp->left;
+        p->height = getHeight(p);
+        temp->left = p;
+        temp->height = getHeight(temp);
+        p = temp;
     }
 
     BinaryNode *root;  ///< 树的根节点指针
@@ -422,37 +428,51 @@ protected:
         // 否则递归在左子树中查找最小值
         return detachMin(t->left);
     }
-}
-    void remove(const Comparable &x, BinaryNode * &t) {
-    if (t == nullptr) return;
-
-    if (x < t->element) {
-        remove(x, t->left);
-    } else if (x > t->element) {
-        remove(x, t->right);
-    } else {  // 找到要删除的节点
-        if (t->left == nullptr) {
-            BinaryNode* temp = t;
-            t = t->right;
-            delete temp;
-        } else if (t->right == nullptr) {
-            BinaryNode* temp = t;
-            t = t->left;
-            delete temp;
-        } else {
-            BinaryNode* temp = detachMin(t->right);
-            t->element = temp->element;
-            delete temp;
-        }
     }
+    void remove(const Comparable &x, BinaryNode *&t) {
+        if (t == nullptr) {
+            return;  /// 元素不存在
+        }
+        if (x < t->element) {
+            remove(x, t->left);
+        } else if (x > t->element) {
+            remove(x, t->right);
+        } else {
+            if (t->left == nullptr) {
+                BinaryNode* temp = t;
+                 t = t->right;
+                delete temp; 
+            }else if (t->right == nullptr) {
+                BinaryNode* temp = t;
+                t = t->left;
+                delete temp; 
+            }else {
+                BinaryNode *minrightnode = detachMin(t->right); //找到右子树最小节点
+                BinaryNode *currentnode = t; //保存目前节点
+                //替换
+                minrightnode->left = t->left;
+                minrightnode->right = t->right;
+                t = minrightnode;
+                delete currentnode;
+                BinaryNode *p = t->right;
+                std::stack<BinaryNode*> stk;
+                while(p->left){
+                    stk.push(p);
+                    p = p->left;
+                }
+                while(!stk.empty()){
+                    balance(stk.top()->left);
+                    stk.pop();
+                }
+            }
 
-    // 更新节点的高度
-    updateHeight(t);
+        }
 
-    // 进行平衡
-    balance(t);
-}
+        balance(t);
 
+        getHeight(t);
+            
+    }
         
         
 
@@ -469,6 +489,10 @@ protected:
         return new BinaryNode{t->element, clone(t->left), clone(t->right)};
     }
 };
+
+
+
+
 
 
 
