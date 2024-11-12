@@ -378,6 +378,7 @@ protected:
             /// 如果元素已存在，则不进行插入
             /// 这种情况不可遗漏，严格的规则中也可以抛出异常
         }
+        t->height = getHeight(t);
     }
 
     /**
@@ -397,6 +398,7 @@ protected:
         } else {
             // 如果元素已存在，则不进行插入
         }
+        t->height = getHeight(t);
     }
 
     /**
