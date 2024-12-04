@@ -45,7 +45,7 @@ void test(const std::string& description, std::vector<T> vec, void (*sort_func)(
 // 定义排序函数的包装器，用于std::sort的测试
 template <typename T>
 void std_sort_wrapper(std::vector<T>& vec) {
-    std::heap_sort(vec.begin(), vec.end());
+    std::sort_heap(vec.begin(), vec.end());
 }
 
 int main() {
