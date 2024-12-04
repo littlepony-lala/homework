@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <chrono>
 #include <random>
-#include "HeapSort.h"
+#include "Heapsort.h"
 #include <algorithm>
 
 template <typename T>
