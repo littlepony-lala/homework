@@ -1,36 +1,31 @@
-# 定义目标文件和编译器
-CC = gcc
-CFLAGS = -Wall -g -O2
-TEX = pdflatex
-
-# 目标文件
-EXEC = test
+# 定义变量
+CXX = g++
+CXXFLAGS = -O2 -Wall
+TARGET = test
 REPORT = report.pdf
+SRC = test.cpp
+HEADER = HeapSort.h
 
-# 源文件
-HEADERS = HeapSort.h test.h
-SOURCES = HeapSort.c test.c
-OBJECTS = $(SOURCES:.c=.o)
+# 目标规则：生成可执行文件
+all: $(TARGET)
 
-# 默认目标
-all: $(EXEC)
-
-# 编译可执行文件
-$(EXEC): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $(OBJECTS)
-
-# 生成 .o 文件的规则
-%.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) -c $< -o $@
+# 生成可执行文件test
+$(TARGET): $(SRC) $(HEADER)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRC)
 
 # 生成报告
 report: $(REPORT)
 
+# 生成report.pdf
 $(REPORT): report.tex
-	$(TEX) report.tex
+	pdflatex report.tex
 
-# 清理
+# 清理中间文件和生成的目标文件
 clean:
-	rm -f $(OBJECTS) $(EXEC) $(REPORT) *.aux *.log
+	rm -f $(TARGET) $(REPORT) *.aux *.log
 
-.PHONY: all report clean
+# 清理仅报告相关文件
+clean-report:
+	rm -f $(REPORT) *.aux *.log
+
+.PHONY: all clean report clean-report
