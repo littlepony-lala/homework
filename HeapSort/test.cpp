@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <chrono>
 #include <random>
-#include "HeapSort.h"
+#include "Heapsort.h"
 
 template <typename T>
 bool check(const std::vector<T> &vec) {
