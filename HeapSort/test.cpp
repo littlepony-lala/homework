@@ -4,6 +4,7 @@
 #include <chrono>
 #include <random>
 #include "Heapsort.h"
+#include <algorithm>
 
 template <typename T>
 bool check(const std::vector<T> &vec) {
