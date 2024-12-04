@@ -3,29 +3,22 @@ CXX = g++
 CXXFLAGS = -O2 -Wall
 TARGET = test
 REPORT = report.pdf
-SRC = test.cpp
-HEADER = HeapSort.h
 
-# 目标规则：生成可执行文件
+# 默认目标
 all: $(TARGET)
 
-# 生成可执行文件test
-$(TARGET): $(SRC) $(HEADER)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRC)
+# 编译 test.cpp 生成可执行文件 test
+$(TARGET): test.cpp
+	$(CXX) $(CXXFLAGS) -o $(TARGET) test.cpp
 
 # 生成报告
-report: $(REPORT)
-
-# 生成report.pdf
-$(REPORT): report.tex
+report: report.tex
 	pdflatex report.tex
 
-# 清理中间文件和生成的目标文件
+# 清理生成的文件
 clean:
-	rm -f $(TARGET) $(REPORT) *.aux *.log
+	rm -f $(TARGET) *.o *.log *.aux $(REPORT)
 
-# 清理仅报告相关文件
-clean-report:
-	rm -f $(REPORT) *.aux *.log
-
-.PHONY: all clean report clean-report
+# 清理所有
+distclean: clean
+	rm -f $(TARGET)
