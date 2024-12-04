@@ -29,21 +29,22 @@ void test(const std::string& description, std::vector<T> vec, void (*sort_func)(
     // 检查排序结果
     bool is_sorted = check(vec);
     if (is_sorted) {
-        std::cout << "排序成功";
+        std::cout << "排序成功 ";
     } else {
-        std::cerr << "排序失败";
+        std::cerr << "排序失败 ";
     }
 
     // 输出排序所用时间
     std::cout << "Time taken: " 
               << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() 
-              << " ms ";
+              << " ms "
+              << std::endl;
 }
 
 // 定义排序函数的包装器，用于std::sort的测试
 template <typename T>
 void std_sort_wrapper(std::vector<T>& vec) {
-    std::sort(vec.begin(), vec.end());
+    std::heap_sort(vec.begin(), vec.end());
 }
 
 int main() {
@@ -69,19 +70,19 @@ int main() {
 
     // 对随机序列测试
     test("随机序列 (HeapSort)", random_seq, HeapSort<int>);
-    test("随机序列 (std::sort)", random_seq, std_sort_wrapper<int>);
+    test("随机序列 (std::heap_sort)", random_seq, std_sort_wrapper<int>);
 
     // 对有序序列测试
     test("有序序列 (HeapSort)", sorted_seq, HeapSort<int>);
-    test("有序序列 (std::sort)", sorted_seq, std_sort_wrapper<int>);
+    test("有序序列 (std::heap_sort)", sorted_seq, std_sort_wrapper<int>);
 
     // 对逆序序列测试
     test("逆序序列 (HeapSort)", reversed_seq, HeapSort<int>);
-    test("逆序序列 (std::sort)", reversed_seq, std_sort_wrapper<int>);
+    test("逆序序列 (std::heap_sort)", reversed_seq, std_sort_wrapper<int>);
 
     // 对部分重复序列测试
     test("部分重复序列 (HeapSort)", duplicate_seq, HeapSort<int>);
-    test("部分重复序列 (std::sort)", duplicate_seq, std_sort_wrapper<int>);
+    test("部分重复序列 (std::heap_sort)", duplicate_seq, std_sort_wrapper<int>);
 
     return 0;
 }
