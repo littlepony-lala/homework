@@ -14,15 +14,22 @@
 
 \maketitle
 \section{Heapsort.h的设计思路}
-将所给数组使用\texttt{std::sort\_make}构建堆后，遍历每一个节点使用\texttt{std::pop\_heap}将最大堆的根移到当前堆的最后，并使堆的范围减小1，最终形成升序的序列。
+\begin{itemize}
+    \item 将所给数组使用\texttt{std::sort\_make}构建堆后，
+    \item 遍历每一个节点使用\texttt{std::pop\_heap}将最大堆的根移到当前堆的最后,并使堆的范围减小1,最终形成升序的序列。
+\end{itemize}
 \section{测试流程}
-check函数用于判断函数是否成功将数组成功排序，\texttt{test}函数用于记录排序的时间、判断排序是否成功；在main函数中分别对\texttt{main}函数中分别对\texttt{Heapsort.h} 和\texttt{std::heap\_sort}运行\texttt{test}检查各类数组是否都能正确排序并且比较运行时间。
+\begin{itemize}
+    \item \texttt{check} 函数用于判断函数是否成功将数组成功排序。
+    \item \texttt{test} 函数用于记录排序的时间并判断排序是否成功。
+    \item 在 \texttt{main} 函数中分别运行 \texttt{Heapsort.h} 和 \texttt{std::heap\_sort}，检查排序结果和运行时间。
+\end{itemize}
 \section{测试结果}
 \begin{table}[h!]
     \centering
     \begin{tabular}{|l|c|c|}
     \hline
-    序列类型 & \testtt{My Heapsort} 时间 & \texttt{Std::sort_heap} 时间 \\
+    序列类型 & My Heapsort 时间 & Std::sort\_heap 时间 \\
     \hline  
     随机序列 & 87ms & 43ms \\
     \hline 
