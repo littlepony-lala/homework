@@ -50,7 +50,7 @@ void heapsort(std::vector<T>& vec){
 // 定义排序函数的包装器，用于std::sort的测试
 template <typename T>
 void std_sort_wrapper(std::vector<T>& vec) {
-    std::heapsort(vec);
+    heapsort(vec);
 }
 
 int main() {
