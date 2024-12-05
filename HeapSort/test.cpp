@@ -46,7 +46,7 @@ void heapsort(std::vector<T>& vec){
     std::make_heap(vec.begin(), vec.end());
     std::sort_heap(vec.begin(), vec.end());
 }
-}
+
 
 int main() {
     constexpr size_t LENGTH = 1000000; // 测试序列长度
