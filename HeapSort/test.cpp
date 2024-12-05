@@ -41,11 +41,16 @@ void test(const std::string& description, std::vector<T> vec, void (*sort_func)(
               << " ms "
               << std::endl;
 }
+template <typename T>
+void heapsort(std::vector<T>& vec){
+    std::make_heap(vec.begin(), vec.end());
+    std::sort_heap(v.begin(), v.end());
+}
 
 // 定义排序函数的包装器，用于std::sort的测试
 template <typename T>
 void std_sort_wrapper(std::vector<T>& vec) {
-    std::sort_heap(vec.begin(), vec.end());
+    std::heapsort(vec.begin(), vec.end());
 }
 
 int main() {
@@ -71,7 +76,7 @@ int main() {
 
     // 对随机序列测试
     test("随机序列 (HeapSort)", random_seq, HeapSort<int>);
-    test("随机序列 (std::heap_sort)", random_seq, std_sort_wrapper<int>);
+    test("随机序列 (std::sort_heap)", random_seq, std_sort_wrapper<int>);
 
     // 对有序序列测试
     test("有序序列 (HeapSort)", sorted_seq, HeapSort<int>);
