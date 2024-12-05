@@ -44,13 +44,13 @@ void test(const std::string& description, std::vector<T> vec, void (*sort_func)(
 template <typename T>
 void heapsort(std::vector<T>& vec){
     std::make_heap(vec.begin(), vec.end());
-    std::sort_heap(v.begin(), v.end());
+    std::sort_heap(vec.begin(), vec.end());
 }
 
 // 定义排序函数的包装器，用于std::sort的测试
 template <typename T>
 void std_sort_wrapper(std::vector<T>& vec) {
-    std::heapsort(vec.begin(), vec.end());
+    std::heapsort(vec);
 }
 
 int main() {
