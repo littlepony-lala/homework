@@ -46,11 +46,6 @@ void heapsort(std::vector<T>& vec){
     std::make_heap(vec.begin(), vec.end());
     std::sort_heap(vec.begin(), vec.end());
 }
-
-// 定义排序函数的包装器，用于std::sort的测试
-template <typename T>
-void std_sort_wrapper(std::vector<T>& vec) {
-    heapsort(vec);
 }
 
 int main() {
@@ -76,19 +71,19 @@ int main() {
 
     // 对随机序列测试
     test("随机序列 (HeapSort)", random_seq, HeapSort<int>);
-    test("随机序列 (std::sort_heap)", random_seq, std_sort_wrapper<int>);
+    test("随机序列 (std::sort_heap)", random_seq, heapsort<int>);
 
     // 对有序序列测试
     test("有序序列 (HeapSort)", sorted_seq, HeapSort<int>);
-    test("有序序列 (std::sort_heap)", sorted_seq, std_sort_wrapper<int>);
+    test("有序序列 (std::sort_heap)", sorted_seq, heapsort<int>);
 
     // 对逆序序列测试
     test("逆序序列 (HeapSort)", reversed_seq, HeapSort<int>);
-    test("逆序序列 (std::sort_heap)", reversed_seq, std_sort_wrapper<int>);
+    test("逆序序列 (std::sort_heap)", reversed_seq, heapsort<int>);
 
     // 对部分重复序列测试
     test("部分重复序列 (HeapSort)", duplicate_seq, HeapSort<int>);
-    test("部分重复序列 (std::sort_heap)", duplicate_seq, std_sort_wrapper<int>);
+    test("部分重复序列 (std::sort_heap)", duplicate_seq, heapsort<int>);
 
     return 0;
 }
